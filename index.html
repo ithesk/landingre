@@ -4,49 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RE</title>
-    <!-- Esto es solo para la previsualización en Claude -->
-    <script>
-        // Creamos una función para mostrar la previsualización
-        function showPreview() {
-            // Ocultar el botón de previsualización
-            document.getElementById('preview-button').style.display = 'none';
-            // Mostrar el contenido real
-            document.getElementById('site-content').style.display = 'block';
-        }
-    </script>
-    <style>
-        /* Estilos para el botón de previsualización */
-        .preview-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #000;
-        }
-        
-        .preview-button {
-            padding: 15px 30px;
-            background: linear-gradient(45deg, #333, #111);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.3);
-            border-radius: 5px;
-            font-size: 18px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
-        }
-        
-        .preview-button:hover {
-            background: linear-gradient(45deg, #444, #222);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-        
-        /* Ocultar el contenido del sitio hasta que se haga clic en el botón */
-        #site-content {
-            display: none;
-        }
-    </style>
     <style>
         * {
             margin: 0;
@@ -580,15 +537,6 @@
     </style>
 </head>
 <body>
-    <!-- Botón de previsualización -->
-    <div class="preview-container" id="preview-button">
-        <button class="preview-button" onclick="showPreview()">
-            Ver Previsualización del Sitio
-        </button>
-    </div>
-
-    <!-- Contenido real del sitio -->
-    <div id="site-content">
     <!-- Loading Animation -->
     <div class="loader" id="loader">
         <div class="logo-animation">re</div>
@@ -709,7 +657,7 @@
                 </iframe>
             </div>
             
-            <a href="https://www.youtube.com/channel/UCd0WSSMh5nXMvmT0qepVe5g" target="_blank" class="channel-link">
+            <a href="https://www.youtube.com/@IGLESIAREVOLUCIONA" target="_blank" class="channel-link">
                 Ver más en YouTube
             </a>
         </div>
@@ -781,6 +729,5 @@
             }
         });
     </script>
-    </div>
 </body>
 </html>
