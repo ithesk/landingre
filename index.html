@@ -581,6 +581,51 @@
             border-color: rgba(255,255,255,0.5);
             transform: translateY(-2px);
         }
+
+        .donacion-button {
+        display: inline-block;
+        padding: 1.5rem 4rem;
+        background: linear-gradient(45deg, #333, #111);
+        border: 2px solid rgba(255,255,255,0.3);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            letter-spacing: 0.2rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            border-radius: 50px;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+    .donacion-button:hover {
+        background: linear-gradient(45deg, #555, #333);
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(255,255,255,0.15);
+        border-color: rgba(255,255,255,0.5);
+    }
+
+    .donacion-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s ease;
+        z-index: 1;
+    }
+
+    .donacion-button:hover::before {
+        left: 100%;
+    }
+
+    .donacion-button span {
+        position: relative;
+        z-index: 2;
+}
     </style>
 </head>
 <body>
@@ -599,6 +644,7 @@
                 <li><a href="#horarios">Horarios</a></li>
                 <li><a href="#ubicacion">Ubicación</a></li>
                 <li><a href="#mensajes">Mensajes</a></li>
+                <li><a href="donaciones.html">Donaciones</a></li>
             </ul>
         </div>
     </nav>
@@ -732,6 +778,10 @@
             
             <a href="https://www.youtube.com/@IGLESIAREVOLUCIONA" target="_blank" class="channel-link">
                 Ver más en YouTube
+            </a>
+
+            <a href="donaciones.html" class="donacion-button" style="margin-top: 2rem;">
+                <span>Hacer Donación</span>
             </a>
         </div>
     </section>

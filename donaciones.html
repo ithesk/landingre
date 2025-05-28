@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donaciones - RE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600&display=swap');
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Loading Animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease;
+        }
+
+        .loader.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .blessing-animation {
+            text-align: center;
+            max-width: 800px;
+            padding: 0 2rem;
+        }
+
+        .blessing-text {
+            font-size: 3.5rem;
+            font-weight: 100;
+            letter-spacing: 0.2rem;
+            line-height: 1.3;
+            opacity: 0;
+            animation: fadeInScale 4s ease forwards;
+        }
+
+        .blessing-highlight {
+            background: linear-gradient(45deg, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 300;
+        }
+
+        @keyframes fadeInScale {
+            0% { 
+                opacity: 0; 
+                transform: scale(0.8);
+            }
+            50% { 
+                opacity: 1; 
+                transform: scale(1.05);
+            }
+            100% { 
+                opacity: 1; 
+                transform: scale(1);
+            }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 2rem 3rem;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(20px);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 0.5rem;
+        }
+
+        .back-link {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 300;
+            font-size: 0.9rem;
+            letter-spacing: 0.1rem;
+            transition: opacity 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .back-link:hover {
+            opacity: 0.6;
+        }
+
+        /* Main Content */
+        .main-content {
+            min-height: 100vh;
+            padding-top: 8rem;
+            padding-bottom: 4rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .page-title {
+            font-size: 4rem;
+            font-weight: 100;
+            text-align: center;
+            margin-bottom: 2rem;
+            letter-spacing: 0.3rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 4.5s forwards;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.3rem;
+            opacity: 0.8;
+            margin-bottom: 5rem;
+            font-weight: 300;
+            letter-spacing: 0.1rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 4.8s forwards;
+        }
+
+        /* Payment Methods Grid */
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            margin-bottom: 5rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 5.1s forwards;
+        }
+
+        .payment-card {
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 3rem 2.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #fff, transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .payment-card:hover {
+            border-color: rgba(255,255,255,0.3);
+            transform: translateY(-5px);
+        }
+
+        .payment-card:hover::before {
+            opacity: 1;
+        }
+
+        .payment-title {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.1rem;
+            text-transform: uppercase;
+        }
+
+        .payment-info {
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-info h4 {
+            color: #fff;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+        }
+
+        .payment-info p {
+            color: #ccc;
+            font-weight: 300;
+            font-size: 1rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        .copy-button {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+
+        .copy-button:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .copy-button.copied {
+            background: rgba(0,255,0,0.2);
+            border-color: rgba(0,255,0,0.5);
+        }
+
+        /* QR Code Section */
+        .qr-section {
+            text-align: center;
+            margin-bottom: 4rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 5.4s forwards;
+        }
+
+        .qr-title {
+            font-size: 1.8rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            letter-spacing: 0.1rem;
+        }
+
+        .qr-container {
+            display: inline-block;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            background: #000;
+            border-radius: 8px;
+        }
+
+        .qr-description {
+            opacity: 0.7;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        /* Blessing Quote */
+        .blessing-quote {
+            text-align: center;
+            margin: 6rem 0;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, #111 0%, #000 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            opacity: 0;
+            animation: fadeInUp 1s ease 5.7s forwards;
+        }
+
+        .blessing-quote-text {
+            font-size: 2.2rem;
+            font-weight: 200;
+            line-height: 1.4;
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.05rem;
+        }
+
+        .blessing-verse {
+            font-size: 1rem;
+            opacity: 0.6;
+            font-style: italic;
+            letter-spacing: 0.1rem;
+        }
+
+        /* Contact Info */
+        .contact-info {
+            text-align: center;
+            margin-top: 4rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 6s forwards;
+        }
+
+        .contact-title {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            letter-spacing: 0.1rem;
+        }
+
+        .contact-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-item {
+            padding: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        .contact-item h4 {
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+            font-size: 0.9rem;
+        }
+
+        .contact-item p {
+            opacity: 0.8;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .blessing-text {
+                font-size: 2.2rem;
+            }
+            
+            .page-title {
+                font-size: 2.5rem;
+            }
+            
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+            
+            .payment-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .blessing-quote-text {
+                font-size: 1.6rem;
+            }
+            
+            nav {
+                padding: 1rem 1.5rem;
+            }
+            
+            .container {
+                padding: 0 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Animation -->
+    <div class="loader" id="loader">
+        <div class="blessing-animation">
+            <div class="blessing-text">
+                No damos para ser <span class="blessing-highlight">bendecidos</span><br>
+                damos porque ya somos <span class="blessing-highlight">bendecidos</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-logo">re</div>
+            <a href="index.html" class="back-link">← Volver al inicio</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <h1 class="page-title">Donaciones</h1>
+            <p class="subtitle">Tu generosidad transforma vidas y fortalece nuestra misión</p>
+
+            <!-- Payment Methods -->
+            <div class="payment-methods">
+                <!-- Transferencia Bancaria -->
+                <div class="payment-card">
+                    <h3 class="payment-title">Transferencia Bancaria</h3>
+                    
+                    <div class="payment-info">
+                        <h4>Banco</h4>
+                        <p>Banreservas</p>
+                    </div>
+                    
+                    <div class="payment-info">
+                        <h4>Número de Cuenta</h4>
+                        <p id="account-number">0123456789</p>
+                        <button class="copy-button" onclick="copyToClipboard('account-number', this)">Copiar</button>
+                    </div>
+                    
+                    <div class="payment-info">
+                        <h4>Titular</h4>
+                        <p>Iglesia Revoluciona</p>
+                    </div>
+                    
+                    <div class="payment-info">
+                        <h4>RNC</h4>
+                        <p id="rnc-number">123-45678-9</p>
+                        <button class="copy-button" onclick="copyToClipboard('rnc-number', this)">Copiar</button>
+                    </div>
+                </div>
+
+                <!-- Pago Móvil / Digital -->
+                <div class="payment-card">
+                    <h3 class="payment-title">Pagos Digitales</h3>
+                    
+                    <div class="payment-info">
+                        <h4>PayPal</h4>
+                        <p id="paypal-email">donaciones@revoluciona.org</p>
+                        <button class="copy-button" onclick="copyToClipboard('paypal-email', this)">Copiar</button>
+                    </div>
+                    
+                    <div class="payment-info">
+                        <h4>Zelle</h4>
+                        <p id="zelle-email">donaciones@revoluciona.org</p>
+                        <button class="copy-button" onclick="copyToClipboard('zelle-email', this)">Copiar</button>
+                    </div>
+                    
+                    <div class="payment-info">
+                        <h4>Venmo</h4>
+                        <p>@IglesiaRevoluciona</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QR Code Section -->
+            <div class="qr-section">
+                <h3 class="qr-title">Pago Rápido con QR</h3>
+                <div class="qr-container">
+                    <div class="qr-code" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzAwMCIvPgogIDx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmaWxsPSIjZmZmIiBmb250LXNpemU9IjE2IiBmb250LWZhbWlseT0iQXJpYWwiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5RUiBDb2RlPC90ZXh0Pgo8L3N2Zz4K'); background-size: cover;"></div>
+                </div>
+                <p class="qr-description">Escanea para donar desde tu dispositivo móvil</p>
+            </div>
+
+            <!-- Blessing Quote -->
+            <div class="blessing-quote">
+                <div class="blessing-quote-text">
+                    "Cada uno dé como propuso en su corazón: no con tristeza, ni por necesidad, porque Dios ama al dador alegre"
+                </div>
+                <div class="blessing-verse">2 Corintios 9:7</div>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="contact-info">
+                <h3 class="contact-title">¿Necesitas ayuda?</h3>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <h4>WhatsApp</h4>
+                        <p>+1 (809) 123-4567</p>
+                    </div>
+                    <div class="contact-item">
+                        <h4>Email</h4>
+                        <p>donaciones@revoluciona.org</p>
+                    </div>
+                </div>
+                <p style="margin-top: 2rem; opacity: 0.6; font-size: 0.9rem;">
+                    Si tienes alguna duda sobre el proceso de donación, no dudes en contactarnos.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Loading animation
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('fade-out');
+                setTimeout(() => {
+                    document.getElementById('loader').style.display = 'none';
+                }, 800);
+            }, 4000);
+        });
+
+        // Copy to clipboard function
+        function copyToClipboard(elementId, button) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            
+            navigator.clipboard.writeText(text).then(function() {
+                button.textContent = '¡Copiado!';
+                button.classList.add('copied');
+                
+                setTimeout(() => {
+                    button.textContent = 'Copiar';
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(function(err) {
+                console.error('Error al copiar: ', err);
+                // Fallback para navegadores más antiguos
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                button.textContent = '¡Copiado!';
+                button.classList.add('copied');
+                
+                setTimeout(() => {
+                    button.textContent = 'Copiar';
+                    button.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Apply scroll animations to cards
+        document.querySelectorAll('.payment-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
