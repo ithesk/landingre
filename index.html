@@ -561,6 +561,26 @@
                 padding: 1rem 1.5rem;
             }
         }
+
+        .calendar-button {
+            display: inline-block;
+            padding: 0.7rem 1.5rem;
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 3px;
+            font-size: 0.8rem;
+            letter-spacing: 0.1rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-button:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -663,10 +683,16 @@
             <div class="horario-card">
                 <div class="horario-time">10:00 AM</div>
                 <div class="horario-service">Primer Servicio</div>
+                <button class="calendar-button" onclick="agregarAlCalendario(10, 0, 11, 30)">
+                    Agregar al Calendario
+                </button>
             </div>
             <div class="horario-card">
                 <div class="horario-time">12:00 PM</div>
                 <div class="horario-service">Segundo Servicio</div>
+                <button class="calendar-button" onclick="agregarAlCalendario(12, 0, 13, 0)">
+                    Agregar al Calendario
+                </button>
             </div>
         </div>
     </section>
@@ -715,6 +741,8 @@
         <p>&copy; 2025 RE</p>
         <p style="margin-top: 1rem;">Ps. Josué Ovalles & Adrianna Guzmán</p>
     </footer>
+
+    <script src="calendario.js"></script>
 
     <script>
         // Loading animation
